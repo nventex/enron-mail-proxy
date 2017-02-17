@@ -25,7 +25,7 @@ function sendToElasticSearch(searchData, resp) {
     var postData = JSON.stringify(searchData);
     
     var options = {
-        "hostname": "edmondtang.com",
+        "hostname": process.env.allowedOrigin.hostName,
         "port": "9200",
         "path": "/enron_emails/_search",
         "method": "POST",
