@@ -26,7 +26,18 @@ app.get("/api/email/:id", (req, resp) => {
 });
 
 app.post("/api/log", (req, resp) => {
-    elasticSearchClient.log(req.body, resp);
+    var ip = getIpAddress(req);
+    req.body.ip_address = ip;
+    elasticSearchClient.log(req.body, resp, ip);
 });
+
+function getIpAddress(request) {
+    var ip = request.headers["x-forwarded-for"] ||
+        request.connection.remoteAddress ||
+        request.socket.remoteAddress ||
+        request.connection.socket.remoteAddress;    
+
+    return ip;
+}
 
 app.listen(port);
